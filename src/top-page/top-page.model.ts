@@ -1,4 +1,4 @@
-import { prop } from '@typegoose/typegoose';
+import { index, prop } from '@typegoose/typegoose';
 import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 export enum TopLevelCategory {
@@ -31,6 +31,8 @@ export class TopPageAdvantages {
 }
 
 export interface TopPageModel extends Base {}
+
+@index({ '$**': 'text' }) //searcher for all propertyes
 export class TopPageModel extends TimeStamps {
   @prop({ enum: TopLevelCategory })
   firstLevelCategory: TopLevelCategory;
@@ -41,6 +43,7 @@ export class TopPageModel extends TimeStamps {
   @prop({ unique: true })
   alias: string;
 
+  // @prop({ text: true }) text if need use only 1 fuild, another use @index for model @index({ title: 'text', seoText: 'text' })
   @prop()
   title: string;
 
