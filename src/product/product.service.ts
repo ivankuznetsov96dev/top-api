@@ -14,7 +14,6 @@ export class ProductService {
   ) {}
 
   async create(dto: CreateProductDto) {
-    console.log('fucking test!: ', dto);
     return this.productModel.create(dto);
   }
 
@@ -51,19 +50,29 @@ export class ProductService {
             from: 'Review',
             localField: '_id',
             foreignField: 'productId',
-            as: 'review',
+            as: 'reviews',
           },
         },
         {
           $addFields: {
-            reviewCount: { $size: '$review' },
-            reviewAvg: { $avg: '$review.rating' },
+            reviewCount: { $size: '$reviews' },
+            reviewAvg: { $avg: '$reviews.rating' },
+            reviews: {
+              $function: {
+                body: `function (reviews) {
+                  reviews.sort((prev, next) => new Date(next.createdAt) - new Date(prev.createdAt));
+                  return reviews;
+                }`,
+                args: ['$reviews'],
+                lang: 'js',
+              },
+            },
           },
         },
       ])
       .exec() as Promise<
       (ProductModel & {
-        review: ReviewModel[];
+        reviews: ReviewModel[];
         reviewCount: number;
         reviewAvg: number;
       })[]
