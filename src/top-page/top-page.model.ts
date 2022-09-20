@@ -35,7 +35,7 @@ export interface TopPageModel extends Base {}
 @index({ '$**': 'text' }) //searcher for all propertyes
 export class TopPageModel extends TimeStamps {
   @prop({ enum: TopLevelCategory })
-  firstLevelCategory: TopLevelCategory;
+  firstCategory: TopLevelCategory;
 
   @prop()
   secondCategory: string;

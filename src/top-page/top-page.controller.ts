@@ -1,6 +1,7 @@
 import { IdValidationPipe } from './../pipes/id-validation.pipe';
 import { TopPageModel } from './top-page.model';
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -18,6 +19,7 @@ import { FindTopPageDto } from './dto/find-top-page.dto';
 import { TopPageService } from './top-page.service';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
 import {
+  BAD_REQUEST_TOP_PAGE_WITH_THIS_ALIAS,
   NOT_FOUND_TOP_PAGE_BY_ALIAS_ERROR,
   NOT_FOUND_TOP_PAGE_ERROR,
 } from './top-page.constants';
@@ -30,7 +32,9 @@ export class TopPageController {
   @UseGuards(JwtAuthGuard)
   @Post('create')
   async create(@Body() dto: CreateTopPageDto) {
-    return this.topPageService.create(dto);
+    return await this.topPageService.create(dto).catch(() => {
+      throw new BadRequestException(BAD_REQUEST_TOP_PAGE_WITH_THIS_ALIAS);
+    });
   }
 
   @UseGuards(JwtAuthGuard)
