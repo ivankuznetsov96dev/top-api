@@ -1,4 +1,4 @@
-FROM node:14-alpline
+FROM node:14-buster-slim
 WORKDIR /opt/app
 ADD package.json package.json
 RUN npm install
