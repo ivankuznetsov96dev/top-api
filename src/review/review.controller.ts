@@ -19,7 +19,9 @@ import { ReviewModel } from './review.model';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { UserEmail } from '../decorators/user-email.decorator';
 import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Review')
 @Controller('review')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}

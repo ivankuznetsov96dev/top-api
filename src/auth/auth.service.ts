@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
@@ -38,7 +42,7 @@ export class AuthService {
 
     const isCorrectPassword = compareSync(password, user.passwordHash);
     if (!isCorrectPassword) {
-      throw new UnauthorizedException(WRONG_PASSWORD_ERROR);
+      throw new ForbiddenException(WRONG_PASSWORD_ERROR);
     }
 
     return { email: user.email };

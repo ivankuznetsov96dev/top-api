@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsArray,
@@ -35,18 +36,39 @@ export class CreateTopPageDto {
   @IsEnum(TopLevelCategory)
   firstCategory: TopLevelCategory;
 
+  @ApiProperty({
+    type: String,
+    description: 'top-page description',
+  })
   @IsString()
   secondCategory: string;
 
+  @ApiProperty({
+    type: String,
+    description: 'alias for this top page',
+  })
   @IsString()
   alias: string;
 
+  @ApiProperty({
+    type: String,
+    description: 'top-page title',
+  })
   @IsString()
   title: string;
 
+  @ApiProperty({
+    type: String,
+    description: 'top-page category',
+  })
   @IsString()
   category: string;
 
+  @ApiPropertyOptional({
+    type: () => HhDataDto,
+    description:
+      'HhData for this top-page {count: number; juniorSalary: number; middleSalary: number; senioeSalary: number;}',
+  })
   @IsOptional()
   @ValidateNested()
   @Type(() => HhDataDto)

@@ -24,7 +24,9 @@ import {
   NOT_FOUND_TOP_PAGE_ERROR,
 } from './top-page.constants';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Top-Page')
 @Controller('top-page')
 export class TopPageController {
   constructor(private readonly topPageService: TopPageService) {}
